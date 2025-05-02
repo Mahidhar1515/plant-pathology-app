@@ -1,0 +1,16 @@
+# web framework
+Flask>=2.0
+
+# image‐I/O & numeric work
+numpy>=1.21
+Pillow>=9.0
+
+# secure filenames
+Werkzeug>=2.0
+
+# TensorFlow & TFLite runtime for your model
+tensorflow>=2.6
+tflite‑runtime>=2.6
+
+# if you ever need to serve in production
+gunicorn>=20.0

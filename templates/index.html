@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plant Pathology Identification</title>
+  <!-- Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-Meco5tgX6CKDqJ3o1KfXrVQYIb3rBk3Fh4RjWW/o36YtS3Abn5wqLzv3n6V0Fht6"
+    crossorigin="anonymous"
+  >
+  <style>
+    /* Basic Reset & Body Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      background-color: #b3b1aa;
+      color: #2b3c2d;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+    }
+    .left-col {
+      flex: 1;
+      background: url("{{ url_for('static', filename='images/bgd.jpg') }}") no-repeat center center;
+      background-size: cover;
+    }
+    .right-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background-color: #b3b1aa;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .heading {
+      font-size: 2rem;
+      color: #2b3c2d;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .subheading {
+      font-size: 1rem;
+      color: #2b3c2d;
+      margin-bottom: 2rem;
+    }
+    .upload-card {
+      background-color: #e0dfdb;
+      border-radius: 7px;
+      width: 400px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.15);
+      margin-bottom: 2rem;
+    }
+    .btn-analyze {
+      background-color: #284633;
+      border: none;
+      color: #fff;
+      width: 150px;
+      height: 40px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin: 1rem auto 0 auto;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: block;
+    }
+    .btn-analyze:hover {
+      background-color: #1e3527;
+    }
+    .result-label {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #2b3c2d;
+    }
+    .suggestion-text {
+      margin-top: 0.5rem;
+      color: #2b3c2d;
+    }
+    #loading {
+      display: none;
+    }
+    .result-image {
+      max-width: 300px;
+      max-height: 300px;
+      width: auto;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      .left-col, .right-col {
+        flex: none;
+        width: 100%;
+      }
+      .left-col {
+        height: 200px;
+      }
+      .upload-card {
+        width: 90%;
+        margin: 1rem auto;
+      }
+      .heading {
+        font-size: 1.5rem;
+      }
+      .subheading {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="left-col"></div>
+    <div class="right-col">
+      <h1 class="heading">PLANT PATHOLOGY IDENTIFICATION</h1>
+      <p class="subheading">Share a picture of the plant and get immediate results!</p>
+      <div class="upload-card">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+          <div class="form-group">
+            <input type="file" name="file" id="file" class="form-control-file" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn-analyze">Analyze</button>
+        </form>
+        <div id="loading" class="text-center mt-3">
+          <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+        {% if result %}
+          <div class="result-label">Result: {{ result }}</div>
+          {% if suggestion %}
+            <p class="suggestion-text">Suggestion: {{ suggestion }}</p>
+          {% endif %}
+          <div class="mt-3">
+            <img src="{{ url_for('static', filename=image_file) }}" alt="Uploaded Image" class="img-fluid result-image">
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- jQuery is optional if you're not using it elsewhere; remove if desired -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+    // Show loading spinner when the form is submitted
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+      document.getElementById('loading').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
